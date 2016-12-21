@@ -1,11 +1,8 @@
-# chef-elkbox
-Downloading the files and running with chef:
+# Downloading the files and running with chef:
 
-Make a chef directory to download the files to:
-sudo mkdir /etc/chef
+Make a chef directory to download the files to: $sudo mkdir /etc/chef
 
-Install git to download the files: 
-sudo yum install git
+Install git to download the files: $sudo yum install git
 
 Download the files:
 sudo git clone https://github.com/coltonglasgow/chef-elkbox /etc/chef
