@@ -11,7 +11,7 @@ end
 #xterm for popout terminals
 execute 'xterm' do
  action :run
- command 'yum install xterm'
+ command 'yum install xterm -y'
 end
 
 #ruby
@@ -75,13 +75,7 @@ yum_repository "elasticsearch" do
     action :create
 end
 
-execute 'reload services' do
- action :run
- command '/bin/systemctl daemon-reload'
-end
-execute 'enable elastic search service' do
- action :run
- command '/bin/systemctl enable elasticsearch.service'
+yum_package 'elasticsearch' do
 end
 
 #kibana
@@ -93,16 +87,6 @@ yum_repository "kibana" do
 end
 
 yum_package 'kibana' do
-end
-
-    #start service on startup
-execute 'reload services' do
- action :run
- command '/bin/systemctl daemon-reload'
-end
-execute 'enable elastic search service' do
- action :run
- command '/bin/systemctl enable kibana.service'
 end
 
 #epel-release
@@ -140,15 +124,6 @@ end
 yum_package 'logstash' do
 end
 
-    #start service on startup
-execute 'reload services' do
- action :run
- command '/bin/systemctl daemon-reload'
-end
-execute 'enable logstash search service' do
- action :run
- command '/bin/systemctl enable logstash.service'
-end
 
     #plugins
 execute 'logstash-output-stomp plugin' do
@@ -203,7 +178,6 @@ execute 'disable firewalld' do
  command 'systemctl disable firewalld'
 end
 
-
 #activemq
 execute 'makes activemq.sh executable' do
  action :run
@@ -214,6 +188,25 @@ execute 'installs activemq' do
  command './etc/chef/activemq.sh'
 end
 
+#start services (elasticsearch, logstash, kibana) on startup
+execute 'reload services' do
+ action :run
+ command '/bin/systemctl daemon-reload'
+end
+execute 'enable elastic search service' do
+ action :run
+ command '/bin/systemctl enable elasticsearch.service'
+end
+
+execute 'enable kibana search service' do
+ action :run
+ command '/bin/systemctl enable kibana.service'
+end
+
+execute 'enable logstash search service' do
+ action :run
+ command '/bin/systemctl enable logstash.service'
+end
 
 #CRON JOB
 #geoip update

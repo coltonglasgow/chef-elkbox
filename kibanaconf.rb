@@ -7,7 +7,7 @@ srvname = gets.chomp
 out_file = File.new("/etc/nginx/conf.d/kibana.conf", "w")
 out_file.puts('server {',
         '	listen 80',
-        '	server_name', srvname, ';',
+        '	server_name ' + srvname + ';',
         '	auth_basic "Restricted Access";',
         '	auth_basic_user_file /etc/nginx/htpasswd.users;',
 
