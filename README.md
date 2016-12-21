@@ -2,7 +2,7 @@
 Downloading the files and running with chef:
 
 Make a chef directory to download the files to:
---sudo mkdir /etc/chef
+	sudo mkdir /etc/chef
 
 Install git to download the files: 
 --sudo yum install git
