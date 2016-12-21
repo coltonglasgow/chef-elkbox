@@ -1,6 +1,4 @@
-#Champtc 2016
-
-#system(xterm -e *) used for ruby scripts and unfamiliar (to me) chef commands
+#Champtc 12-21-2016
 
 #yum update
 execute 'yum update' do
