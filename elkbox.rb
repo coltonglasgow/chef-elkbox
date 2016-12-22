@@ -101,6 +101,12 @@ execute 'create kibana.conf' do
  command 'xterm -e ruby /etc/chef/kibanaconf.rb'
 end
 
+#nginx.conf edit
+execute 'nginx.conf edit' do
+ action :run
+ command 'cp /etc/chef/nginx.conf /etc/nginx/nginx.conf'
+end
+
 #httpd-tools
 yum_package 'httpd-tools' do
 end
