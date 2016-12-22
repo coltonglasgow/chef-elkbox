@@ -192,7 +192,7 @@ execute 'installs activemq' do
  command './etc/chef/activemq.sh'
 end
 
-#start services (elasticsearch, logstash, kibana) on startup
+#start services (elasticsearch, logstash, kibana, and nginx) on startup
 execute 'reload services' do
  action :run
  command '/bin/systemctl daemon-reload'
@@ -210,6 +210,11 @@ end
 execute 'enable logstash search service' do
  action :run
  command '/bin/systemctl enable logstash.service'
+end
+
+execute 'enable nginx search service' do
+ action :run
+ command '/bin/systemctl enable nginx.service'
 end
 
 #CRON JOB
