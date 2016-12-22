@@ -1,5 +1,5 @@
 	#server block
-prompt = 'Kibana server name(this should match your server name):'
+prompt = 'Kibana server name (static IP address):'
 print "\e[H\e[2J"
 puts prompt
 srvname = gets.chomp 

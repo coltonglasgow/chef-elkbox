@@ -179,6 +179,9 @@ execute 'disable firewalld' do
  command 'systemctl disable firewalld'
 end
 
+#http_port_t 5601
+system('semanage port -a -t http_port_t -p tcp 5601')
+
 #activemq
 execute 'makes activemq.sh executable' do
  action :run
