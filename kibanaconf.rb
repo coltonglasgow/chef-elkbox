@@ -6,7 +6,7 @@ srvname = gets.chomp
 
 out_file = File.new("/etc/nginx/conf.d/kibana.conf", "w")
 out_file.puts('server {',
-        '	listen 80',
+        '	listen 80;',
         '	server_name ' + srvname + ';',
         '	auth_basic "Restricted Access";',
         '	auth_basic_user_file /etc/nginx/htpasswd.users;',
@@ -17,7 +17,7 @@ out_file.puts('server {',
                 '		proxy_http_version 1.1;',
                 '		proxy_set_header Upgrade $http_upgrade;',
                 '		proxy_set_header Connection "upgrade";',
-                '		proxy_set_header Host $host',
+                '		proxy_set_header Host $host;',
                 '		proxy_cache_bypass $http_upgrade;',
 
         '	}',

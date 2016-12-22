@@ -142,10 +142,7 @@ directory '/var/local/geoip' do
  action :create
 end
     #update
-execute 'geoip update' do
- action :run
- command '/etc/logstash/geo-update.bash > /dev/null 2>&1'
-end
+system('/etc/logstash/geo-update.bash > /dev/null 2>&1')
 
 #disable selinux
 require 'tempfile'
