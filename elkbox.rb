@@ -219,3 +219,8 @@ cron 'geoip update' do
     weekday '3'
     command '/etc/logstash/geo-update.bash > /dev/null 2>&1'
 end
+
+execute 'reboot' do
+ action :run
+ command 'xterm -e ruby /etc/chef/reboot.rb'
+end
