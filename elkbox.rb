@@ -1,5 +1,10 @@
 #Champtc 12-21-2016
 
+execute 'stop packagekitd (yum lock)' do
+ action :run
+ command 'systemctl stop packagekit.service'
+end
+
 #yum update
 execute 'yum update' do
  action :run
@@ -226,6 +231,11 @@ cron 'geoip update' do
     month '*'
     weekday '3'
     command '/etc/logstash/geo-update.bash > /dev/null 2>&1'
+end
+
+execute 'start packagekitd (was stopped)' do
+ action :run
+ command 'systemctl start packagekit.service'
 end
 
 execute 'reboot' do
