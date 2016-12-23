@@ -1,5 +1,0 @@
-sudo wget https://packages.chef.io/files/stable/chef/12.17.44/el/7/chef-12.17.44-1.el7.x86_64.rpm
-
-sudo yum localinstall chef-12.17.44-1.el7.x86_64.rpm -y
-
-sudo rm chef-12.17.44-1.el7.x86_64.rpm
