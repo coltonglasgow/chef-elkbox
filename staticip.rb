@@ -1,7 +1,7 @@
 #prompts
 prompt1 = 'New Static IP: '
 prompt2 = 'New Netmask: '
-prompt3 = 'DNS 1: (or type "c" and press ENTER to skip) '
+prompt3 = 'DNS 1: '
 prompt4 = 'DNS 2: (or type "c" and press ENTER to skip) '
 prompt5 = 'Hostname: '
 
@@ -40,10 +40,8 @@ print "\e[H\e[2J"
 puts prompt3
 while true
 	dns1 = gets.chomp 
-	if	dns1 =~ /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/ 
-		break
-	elsif 'c'
-		break
+	if	dns1 =~ /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/ 	
+	break
 	else	
 		puts "\e[H\e[2J"
 		puts "invalid response."
@@ -59,8 +57,29 @@ while true
 	dns2 = gets.chomp 
 	if	dns2 =~ /^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/
 		break
-	elsif 'c'
-		break
+	elsif dns2 = 'c'
+	#hostname
+		print "\e[H\e[2J"
+		puts prompt5
+		while true
+		hostname = gets.chomp
+		#write to file
+		print "\e[H\e[2J"
+		out_file = File.new("/etc/sysconfig/network-scripts/ifcfg-enp0s3", "r+")
+		out_file.puts(
+		'BOOTPROTO=static',
+		'IPADDR=' + static, 
+		'NETMASK=' + netmask,
+		'dns1=' + dns1,
+		'dns2=' + dns2,
+		'hostname=' + hostname,)
+
+		out_file.close
+
+		puts IO.read("/etc/sysconfig/network-scripts/ifcfg-enp0s3") 
+		puts 'Is this information correct? (ctrl+c to close or "n" to retry)'
+
+		end
 	else	
 		puts "\e[H\e[2J"
 		puts "invalid response."
@@ -69,28 +88,14 @@ while true
 	end
 end
 
-#hostname
-print "\e[H\e[2J"
-puts prompt5
-while true
-	hostname = gets.chomp
-	break
-end
+#restart network
+system('ifconfig enp0s3 down')
+system('ifconfig enp0s3 up')
 
-#write to file
-out_file = File.new("/etc/sysconfig/network-scripts/ifcfg-enp0s3", "r+")
-out_file.puts(
-'BOOTPROTO=static',
-'IPADDR=' + static, 
-'NETMASK=' + netmask,
-'dns1=' + dns1,
-'dns2=' + dns2,
-'hostname=' + hostname,)
+#test
 
-out_file.close
 
-puts IO.read("/etc/sysconfig/network-scripts/ifcfg-enp0s3") 
-puts 'Is this information correct? (ctrl+c to close or "n" to retry)'
+
 
 #file acceptance
 while yorn = gets.chomp
@@ -106,7 +111,10 @@ when 'n'
 		end
 		system("ruby /etc/chef/staticip.rb")
 		puts "\e[H\e[2J"
-		system("ruby usrinput.rb")
+		system("ruby staticip.rb")
+
+when yorn = 'edit'
+system('sudo nano /etc/sysconfig/network-scripts/ifcfg-enp0s3')
 
 #if not n or ctrl+c
 else
@@ -114,8 +122,6 @@ puts "\e[H\e[2J"
 puts 'Please enter n to retry or press ctrl+c to exit. '
 end
 end
-
-
 
 #changes the ipaddress in the activemq.sh file for installation later in this script
 require 'tempfile'
