@@ -1,5 +1,13 @@
 #Champtc 12-21-2016
 
+puts "\e[H\e[2J"
+
+#static IP (in progress)
+execute 'static ip setup' do
+ action :run
+ command 'xterm -e ruby /etc/chef/staticip.rb'
+end
+
 execute 'stop packagekitd (yum lock)' do
  action :run
  command 'systemctl stop packagekit.service'
@@ -41,12 +49,6 @@ end
 execute 'change root password' do
  action :run
  command 'xterm -e passwd'
-end
-
-#static IP (in progress)
-execute 'static ip setup' do
- action :run
- command 'xterm -e ruby /etc/chef/staticip.rb'
 end
 
 #java
