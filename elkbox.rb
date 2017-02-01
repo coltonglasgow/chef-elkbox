@@ -8,6 +8,18 @@ execute 'static ip setup' do
  command 'xterm -e ruby /etc/chef/staticip.rb'
 end
 
+package 'ntp'
+
+execute 'enable ntpd on startup' do
+ action :run
+ command'/sbin/chkconfig ntdp on'
+end
+
+execute 'start ntpd' do
+action :run
+command '/etc/init.d/ntpd start'
+end
+
 execute 'stop packagekitd (yum lock)' do
  action :run
  command 'systemctl stop packagekit.service'
